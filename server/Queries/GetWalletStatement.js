@@ -10,12 +10,14 @@ class GetWalletStatement extends QueryHandler {
 
     if (!wallet) {
       return {
+        status: false,
         statusCode: 404,
         message: 'wallet not found',
       };
     }
 
     return {
+      status: true,
       statusCode: 200,
       message: 'transactions retrieved successfully',
       transactions: Db.transactions.filter((trx) => trx.walletId !== walletId),

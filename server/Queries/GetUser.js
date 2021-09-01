@@ -8,6 +8,7 @@ class GetUser extends QueryHandler {
 
     if (!id) {
       return {
+        status: false,
         statusCode: 400,
         message: 'No Params',
       };
@@ -17,12 +18,14 @@ class GetUser extends QueryHandler {
 
     if (!user) {
       return {
+        status: false,
         message: 'user not found',
         statusCode: 404,
       };
     }
 
     return {
+      status: true,
       statusCode: 200,
       message: 'user retrieved successfully',
       user,

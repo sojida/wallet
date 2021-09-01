@@ -19,6 +19,7 @@ class CreateTransaction extends CommandHandler {
 
     if (validationErr.errors) {
       return {
+        status: false,
         statusCode: 200,
         message: 'Validation Error',
         errors: {
@@ -31,6 +32,7 @@ class CreateTransaction extends CommandHandler {
 
     if (!wallet) {
       return {
+        status: false,
         statusCode: 404,
         message: 'wallet not found',
       };
@@ -40,6 +42,7 @@ class CreateTransaction extends CommandHandler {
 
     if (newWalletBalance < 0) {
       return {
+        status: false,
         statusCode: 422,
         message: 'insufficient funds',
       };
@@ -51,6 +54,7 @@ class CreateTransaction extends CommandHandler {
     wallet.balance = newWalletBalance;
 
     return {
+      status: true,
       statusCode: 200,
       message: 'transaction created successfully',
       transaction,

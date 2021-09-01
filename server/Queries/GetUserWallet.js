@@ -8,6 +8,7 @@ class GetUserWallet extends QueryHandler {
 
     if (!id) {
       return {
+        status: false,
         statusCode: 400,
         message: 'No Params',
       };
@@ -17,6 +18,7 @@ class GetUserWallet extends QueryHandler {
 
     if (!user) {
       return {
+        status: false,
         statusCode: 404,
         message: 'user not found',
       };
@@ -24,6 +26,7 @@ class GetUserWallet extends QueryHandler {
 
     if (user.state !== 'VERIFIED') {
       return {
+        status: false,
         statusCode: 403,
         message: 'user not verified',
       };
@@ -32,6 +35,7 @@ class GetUserWallet extends QueryHandler {
     const wallet = Db.wallets.find(((walletItem) => walletItem.userId === user.id));
 
     return {
+      status: true,
       statusCode: 200,
       message: 'user wallet retrieved successfully',
       wallet,

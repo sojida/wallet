@@ -18,6 +18,7 @@ class CreateNewUser extends CommandHandler {
 
     if (validationErr.errors) {
       return {
+        status: false,
         statusCode: 400,
         message: 'Validation Error',
         errors: {
@@ -32,6 +33,7 @@ class CreateNewUser extends CommandHandler {
     Db.users.push(user);
     Db.wallets.push(wallet);
     return {
+      status: true,
       statusCode: 200,
       message: 'user created successfully',
       user,

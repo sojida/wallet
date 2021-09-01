@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "start:dev": "nodemon app.js"
+    "start": "node server/app.js",
+    "start:dev:server": "nodemon server/app.js",
+    "start:dev:client": "cd client && yarn start",
+    "build": "cd client && yarn install && yarn run build"
   },
   "repository": {
     "type": "git",

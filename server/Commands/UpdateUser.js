@@ -19,6 +19,7 @@ class UpdateUser extends CommandHandler {
 
     if (validationErr.errors) {
       return {
+        status: false,
         statusCode: 400,
         message: 'Validation Error',
         errors: {
@@ -31,6 +32,7 @@ class UpdateUser extends CommandHandler {
 
     if (!user) {
       return {
+        status: false,
         message: 'user not found',
         statusCode: 400,
       };
@@ -45,6 +47,7 @@ class UpdateUser extends CommandHandler {
     }
 
     return {
+      status: true,
       statusCode: 200,
       message: 'user updated successfully',
       user,
