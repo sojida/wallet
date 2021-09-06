@@ -3,6 +3,7 @@ const CreateNewUserCommand = require('../Commands/CreateNewUser');
 const GetUserQuery = require('../Queries/GetUser');
 const UpdateUserCommand = require('../Commands/UpdateUser');
 const GetUserWalletQuery = require('../Queries/GetUserWallet');
+const Db = require('../Dummy_Database');
 
 const CreateUser = async (req, res) => {
   const { username, email, password } = req.body;
@@ -43,9 +44,29 @@ const GetUserWallet = async (req, res) => {
   return res.status(response.statusCode).json(response);
 };
 
+const Login = async (req, res) => {
+  const { username, password } = req.body;
+
+  const user = Db.users.find((_user) => _user.username === username && _user.password === password);
+
+  if (!user) {
+    return res.status(404).json({
+      status: false,
+      message: 'user not found',
+    });
+  }
+
+  return res.status(200).json({
+    status: true,
+    message: 'Login successful',
+    user,
+  });
+};
+
 module.exports = {
   CreateUser,
   UpdateUser,
   GetUser,
   GetUserWallet,
+  Login,
 };

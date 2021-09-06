@@ -1,6 +1,7 @@
 import React from 'react';
+import { Input, Button } from 'semantic-ui-react'
 
-const StepTwo = ({ next, previous, formValues, updateFormValues }) => {
+const StepTwo = ({ next, previous, formValues, updateFormValues, skip }) => {
     const submit = async (e) => {
         e.preventDefault()
 
@@ -13,6 +14,7 @@ const StepTwo = ({ next, previous, formValues, updateFormValues }) => {
         }).then(res => res.json())
     
         if (resp.status) {
+            localStorage.setItem('user', JSON.stringify(resp.user));
             next()
         }
     }
@@ -28,18 +30,22 @@ const StepTwo = ({ next, previous, formValues, updateFormValues }) => {
     return (
       <div className="step-two">
           <form onSubmit={submit}>
-            <div>
-              <input onChange={handleChange} value={formValues.bvn} placeholder="bvn" name="bvn" />
+            <div className="input">
+              <Input onChange={handleChange} value={formValues.bvn} placeholder="bvn" name="bvn" />
             </div>
-          <button type="submit">Next</button>
-          <button type="button">Skip</button>
-          <button onClick={previous} type="button">Previous</button>
+          <Button color="green" type="submit">Next</Button>
+          <Button color="blue" onClick={skip} type="button">Skip</Button>
+          <Button color="" onClick={previous} type="button">Previous</Button>
           </form>
           <style jsx="true">
         {`
           .step-two {
             display: grid;
             place-items: center;
+          }
+
+          .input {
+            margin: 10px 0;
           }
         `}
       </style>

@@ -1,4 +1,6 @@
 import React from "react";
+import { withRouter, Link } from "react-router-dom" 
+
 
 // components
 import MultistepForm from "../../components/Multistepper";
@@ -19,21 +21,54 @@ const initialState = {
   city: ''
 };
 
-function Signup() {
+function Signup({ history }) {
   const [formValues, updateFormValues] = React.useState(initialState)
 
+  React.useState(() => {
+    const user = localStorage.getItem('user');
+
+    if (user) {
+      updateFormValues(JSON.parse(user))
+    }
+  }, [])
+
+  const skip = () => {
+    history.push('/dashboard')
+  }
+
   return (
-    <div className="Signup">
-      <header className="Signup-header">
-        <p>Signup Page</p>
+    <div className="signup">
+      <div className="signup-container">
         <MultistepForm
           steps={[StepOne, StepTwo, StepThree]}
           formValues={formValues}
           updateFormValues={updateFormValues}
+          skip={skip}
         />
-      </header>
+        <p>Already have an account? <Link to="/">Login</Link></p>
+      </div>
+      <style jsx="true">
+            {`
+              .signup {
+                display: grid;
+                height: 100vh;
+                place-items: center;
+              }
+
+
+              .signup-container {
+                display: grid;
+                place-items: center;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                width: 400px;
+                padding: 50px;
+                border: 1px solid lightgreen;
+              }
+              
+            `}
+          </style>
     </div>
   );
 }
 
-export default Signup;
+export default withRouter(Signup);

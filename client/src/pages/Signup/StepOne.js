@@ -1,6 +1,8 @@
 import React from 'react';
+import { Input, Button, Form } from 'semantic-ui-react'
 
 const StepOne = ({ next, formValues, updateFormValues }) => {
+
     const submit = async (e) => {
         e.preventDefault()
 
@@ -18,6 +20,7 @@ const StepOne = ({ next, formValues, updateFormValues }) => {
                     ...formValues,
                     id: resp.user.id,
                 }));
+                localStorage.setItem('user', JSON.stringify(resp.user));
                 next()
             }
         } else {
@@ -34,23 +37,27 @@ const StepOne = ({ next, formValues, updateFormValues }) => {
 
     return (
       <div className="step-one">
-          <form onSubmit={submit} className="">
-            <div>
-              <input onChange={handleChange} value={formValues.username} placeholder="username" name="username" />
+          <Form onSubmit={submit} className="">
+            <div className="input">
+              <Form.Input onChange={handleChange} value={formValues.username} placeholder="username" name="username" />
             </div>
-            <div>
-              <input onChange={handleChange} value={formValues.email} placeholder="email" name="email" />
+            <div className="input">
+              <Form.Input onChange={handleChange} value={formValues.email} placeholder="email" name="email" />
             </div>
-            <div>
-              <input onChange={handleChange} value={formValues.password} placeholder="password" type="password" name="password" />
+            <div className="input">
+              <Form.Input onChange={handleChange} value={formValues.password} placeholder="password" type="password" name="password" />
             </div>
-          <button type="submit">Next</button>
-          </form>
+            <Button type="submit"color='green'>Next</Button>
+          </Form>
           <style jsx="true">
         {`
           .step-one {
             display: grid;
             place-items: center;
+          }
+
+          .input {
+            margin: 10px 0;
           }
         `}
       </style>
