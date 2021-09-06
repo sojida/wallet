@@ -24,6 +24,7 @@ app.use(express.json());
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 app.get('/api', (req, res) => res.status(200).json({ message: 'Wallet Api' }));
+app.post('/login', Controllers.User.Login);
 app.post('/users', Controllers.User.CreateUser);
 app.get('/users/:id', Controllers.User.GetUser);
 app.put('/users/:id', Controllers.User.UpdateUser);

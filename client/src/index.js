@@ -1,13 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import 'semantic-ui-css/semantic.min.css'
+import 'react-toastify/dist/ReactToastify.css'
+
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
+    <ToastContainer />
     <App />
     </Router>
   </React.StrictMode>,
