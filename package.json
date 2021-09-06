@@ -8,7 +8,7 @@
     "start": "node server/app.js",
     "start:dev:server": "nodemon server/app.js",
     "start:dev:client": "cd client && yarn start",
-    "build": "cd client && yarn install && yarn run build"
+    "build": "cd client && npm install && npm run build"
   },
   "repository": {
     "type": "git",
