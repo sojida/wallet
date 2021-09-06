@@ -3,7 +3,9 @@ const RateLimiting = require('express-rate-limit');
 const path = require('path');
 const Controllers = require('./Controllers');
 
-const PORT = 4000;
+require('dotenv').config();
+
+const PORT = process.env.PORT || 4000;
 
 const app = express();
 
