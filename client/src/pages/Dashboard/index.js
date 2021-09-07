@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from 'react-router-dom';
 import Applayout from "../../components/Layouts/Applayout";
-import { Card, Icon, Image, Label, Menu, Table, Button, Modal, Header, Input, Form } from 'semantic-ui-react';
+import { Card, Icon, Table, Button, Header } from 'semantic-ui-react';
 
 // components
 import UpdateProfileModal from './UpdateProfileModal';
@@ -40,6 +40,7 @@ function Dashboard({ history }) {
         open={openTransactionModal}
         onClose={() => setOpenTransactionModal(false)}
         onOpen={() => setOpenTransactionModal(true)}
+        user={user}
       />
 
       <Card.Group itemsPerRow={2}>
