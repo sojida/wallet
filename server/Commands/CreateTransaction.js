@@ -7,7 +7,7 @@ const { CommandHandler } = require('../CQ');
 class CreateTransaction extends CommandHandler {
   async handle(command) {
     const {
-      amount, description, walletId,
+      amount, description, userId,
     } = command.params;
 
     const schema = Yup.object().shape({
@@ -28,7 +28,25 @@ class CreateTransaction extends CommandHandler {
       };
     }
 
-    const wallet = Db.wallets.find(((walletItem) => walletItem.id === walletId));
+    const user = Db.users.find(((usr) => usr.id === userId));
+
+    if (!user) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: 'user not found',
+      };
+    }
+
+    if (user.state !== 'VERIFIED') {
+      return {
+        status: false,
+        statusCode: 400,
+        message: 'Please verify your account before you can do any transaction',
+      };
+    }
+
+    const wallet = Db.wallets.find(((walletItem) => walletItem.userId === userId));
 
     if (!wallet) {
       return {
@@ -44,7 +62,7 @@ class CreateTransaction extends CommandHandler {
       return {
         status: false,
         statusCode: 422,
-        message: 'insufficient funds',
+        message: 'Insufficient funds',
       };
     }
 

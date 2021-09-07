@@ -63,10 +63,17 @@ const Login = async (req, res) => {
   });
 };
 
+const GetUsers = async (req, res) => res.status(200).json({
+  status: true,
+  message: 'users fetch successful',
+  users: Db.users,
+});
+
 module.exports = {
   CreateUser,
   UpdateUser,
   GetUser,
+  GetUsers,
   GetUserWallet,
   Login,
 };
