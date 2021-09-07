@@ -10,9 +10,9 @@ class UpdateUser extends CommandHandler {
     } = command.params;
 
     const schema = Yup.object().shape({
-      address: Yup.string().optional(),
-      city: Yup.string().optional(),
-      bvn: Yup.string().optional(),
+      address: Yup.string().optional().nullable(),
+      city: Yup.string().optional().nullable(),
+      bvn: Yup.string().optional().nullable(),
     });
 
     const validationErr = await schema.validate(command.params).catch((err) => err);

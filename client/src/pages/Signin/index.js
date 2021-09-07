@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter, Link } from "react-router-dom" 
 import { toast } from 'react-toastify';
-import { Input, Button, Form } from 'semantic-ui-react'
+import { Button, Form } from 'semantic-ui-react'
 
 const initialState = {
 	username: '',

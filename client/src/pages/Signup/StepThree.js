@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Input, Button } from 'semantic-ui-react'
 
 
-const StepThree = ({ next, previous, formValues, updateFormValues, history, skip }) => {
+const StepThree = ({ previous, formValues, updateFormValues, history, skip }) => {
   const submit = async (e) => {
     e.preventDefault()
 
@@ -12,7 +12,7 @@ const StepThree = ({ next, previous, formValues, updateFormValues, history, skip
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ bvn: formValues.bvn}) 
+        body: JSON.stringify({ address: formValues.address, city: formValues.city }) 
     }).then(res => res.json())
 
     if (resp.status) {

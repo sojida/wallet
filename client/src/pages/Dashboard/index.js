@@ -14,6 +14,7 @@ function Dashboard({ history }) {
 
   const [user, setUser] = React.useState(null);
 
+
   React.useEffect(() => {
     const _user = localStorage.getItem('user');
     if(_user) {
@@ -31,6 +32,8 @@ function Dashboard({ history }) {
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
+        user={user}
+        setUser={setUser}
       />
 
       <TransactionModal 
