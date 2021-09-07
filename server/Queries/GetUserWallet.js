@@ -24,13 +24,13 @@ class GetUserWallet extends QueryHandler {
       };
     }
 
-    if (user.state !== 'VERIFIED') {
-      return {
-        status: false,
-        statusCode: 403,
-        message: 'user not verified',
-      };
-    }
+    // if (user.state !== 'VERIFIED') {
+    //   return {
+    //     status: false,
+    //     statusCode: 403,
+    //     message: 'user not verified',
+    //   };
+    // }
 
     const wallet = Db.wallets.find(((walletItem) => walletItem.userId === user.id));
 
