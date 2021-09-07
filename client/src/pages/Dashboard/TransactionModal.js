@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { Button, Modal, Header, Form, Dropdown } from 'semantic-ui-react';
 
 
-function TransactionModal({ open, onClose, onOpen, user }) {
+function TransactionModal({ open, onClose, onOpen, user, updateWallet }) {
   const [value, setValue] = React.useState('');
   const [searchQuery, setSearchQuery] = React.useState(null);
   const [users, setUsers] = React.useState([]);
@@ -17,7 +17,7 @@ function TransactionModal({ open, onClose, onOpen, user }) {
     const resp = await fetch('/users').then(res => res.json());
 
     if (resp.status) {
-      setUsers(resp.users.map(usr => ({ key: usr.id, text: usr.username, value: usr.username })));
+      setUsers(resp.users.map(usr => ({ key: usr.id, text: usr.username, value: usr.id })));
     }
     setIsFetching(false);
   }, [])
@@ -43,11 +43,10 @@ function TransactionModal({ open, onClose, onOpen, user }) {
       headers: {
           'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ amount: -Number(amount), description }) 
+      body: JSON.stringify({ amount: -Number(amount) * 100, description, receiverId: value }) 
     }).then(res => res.json())
 
     if (resp.status) {
-      onClose();
       toast.success(resp.message || 'Successful action', {
         position: "top-center",
         autoClose: 5000,
@@ -57,6 +56,8 @@ function TransactionModal({ open, onClose, onOpen, user }) {
         draggable: true,
         progress: undefined,
         });
+      updateWallet({ id: user.id });
+      onClose();
     } else {
       toast.error(resp.message || 'Something went wrong!', {
         position: "top-center",

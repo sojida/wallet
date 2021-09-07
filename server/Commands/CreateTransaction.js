@@ -7,12 +7,13 @@ const { CommandHandler } = require('../CQ');
 class CreateTransaction extends CommandHandler {
   async handle(command) {
     const {
-      amount, description, userId,
+      amount, description, userId, receiverId,
     } = command.params;
 
     const schema = Yup.object().shape({
       amount: Yup.number().required(),
       description: Yup.string().required(),
+      receiverId: Yup.string().required(),
     });
 
     const validationErr = await schema.validate(command.params).catch((err) => err);
@@ -66,9 +67,20 @@ class CreateTransaction extends CommandHandler {
       };
     }
 
+    const receiverWallet = Db.wallets.find((recWallet) => recWallet.userId === receiverId);
+
+    if (!receiverWallet) {
+      return {
+        status: false,
+        statusCode: 404,
+        message: 'receiver does not exist',
+      };
+    }
+
     const transaction = new Models.Transaction(amount, description);
     Db.transactions.push(transaction);
 
+    receiverWallet.balance = Number(receiverWallet.balance) - Number(amount);
     wallet.balance = newWalletBalance;
 
     return {

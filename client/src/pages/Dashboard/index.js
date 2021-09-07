@@ -11,14 +11,25 @@ import TransactionModal from "./TransactionModal";
 function Dashboard({ history }) {
   const [open, setOpen] = React.useState(false);
   const [openTransactionModal, setOpenTransactionModal] = React.useState(false);
-
+  const [wallet, setWallet] = React.useState(null);
   const [user, setUser] = React.useState(null);
 
+  const updateWallet = async ({ id }) => {
+    const resp = await fetch(`/users/${id}/wallet`).then(res => res.json())
 
-  React.useEffect(() => {
-    const _user = localStorage.getItem('user');
+    if (resp.status) {
+      setWallet(resp.wallet)
+    }
+  }
+
+
+  React.useEffect(async () => {
+    let _user = localStorage.getItem('user');
+
     if(_user) {
-      setUser(JSON.parse(_user))
+      _user = JSON.parse(_user)
+      setUser(_user);
+      updateWallet({ id: _user.id })
     } else {
       history.push('/')
     }
@@ -41,6 +52,7 @@ function Dashboard({ history }) {
         onClose={() => setOpenTransactionModal(false)}
         onOpen={() => setOpenTransactionModal(true)}
         user={user}
+        updateWallet={updateWallet}
       />
 
       <Card.Group itemsPerRow={2}>
@@ -70,7 +82,7 @@ function Dashboard({ history }) {
           <Card.Header>Wallet</Card.Header>
           <Card.Meta>Balance</Card.Meta>
           <h2>
-          ₦ 0.00
+          ₦ {Number(wallet?.balance / 100 || 0).toFixed(2)}
           </h2>
         </Card.Content>
         <Card.Content extra>
