@@ -39,6 +39,7 @@ function Signup({ history }) {
   return (
     <div className="signup">
       <div className="signup-container">
+        <h1>Sign up</h1>
         <MultistepForm
           steps={[StepOne, StepTwo, StepThree]}
           formValues={formValues}
