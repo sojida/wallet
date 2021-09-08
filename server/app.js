@@ -33,7 +33,7 @@ app.get('/users', Controllers.User.GetUsers);
 app.put('/users/:id', Controllers.User.UpdateUser);
 app.get('/users/:id/wallet', Controllers.User.GetUserWallet);
 app.post('/transactions/:userId', Controllers.Transaction.createTransaction);
-app.get('/statements/:walletId', Controllers.Statement.getStatement);
+app.get('/statements/:userId', Controllers.Statement.getStatement);
 
 // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {

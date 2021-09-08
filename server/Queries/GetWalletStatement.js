@@ -4,9 +4,9 @@ const Db = require('../Dummy_Database');
 
 class GetWalletStatement extends QueryHandler {
   query(query) {
-    const { walletId } = query.params;
+    const { userId } = query.params;
 
-    const wallet = Db.wallets.find(((walletItem) => walletItem.id === walletId));
+    const wallet = Db.wallets.find(((walletItem) => walletItem.userId === userId));
 
     if (!wallet) {
       return {
@@ -20,7 +20,7 @@ class GetWalletStatement extends QueryHandler {
       status: true,
       statusCode: 200,
       message: 'transactions retrieved successfully',
-      transactions: Db.transactions.filter((trx) => trx.walletId !== walletId),
+      transactions: Db.transactions.filter((trx) => trx.walletId === wallet.id),
     };
   }
 }

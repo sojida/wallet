@@ -2,9 +2,9 @@ const { CommandQueryApp } = require('../CQ');
 const GetWalletStatement = require('../Queries/GetWalletStatement');
 
 const getStatement = async (req, res) => {
-  const { walletId } = req.params;
+  const { userId } = req.params;
 
-  const query = CommandQueryApp.createQuery({ walletId });
+  const query = CommandQueryApp.createQuery({ userId });
 
   const response = await CommandQueryApp.query(GetWalletStatement, query);
 

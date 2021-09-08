@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { Button, Modal, Header, Form, Dropdown } from 'semantic-ui-react';
 
 
-function TransactionModal({ open, onClose, onOpen, user, updateWallet }) {
+function TransactionModal({ open, onClose, onOpen, user, updateWallet, updateTransactions }) {
   const [value, setValue] = React.useState('');
   const [searchQuery, setSearchQuery] = React.useState(null);
   const [users, setUsers] = React.useState([]);
@@ -20,7 +20,7 @@ function TransactionModal({ open, onClose, onOpen, user, updateWallet }) {
       setUsers(resp.users.map(usr => ({ key: usr.id, text: usr.username, value: usr.id })));
     }
     setIsFetching(false);
-  }, [])
+  }, [open])
   
     let state = {
         isFetching: false,
@@ -57,6 +57,7 @@ function TransactionModal({ open, onClose, onOpen, user, updateWallet }) {
         progress: undefined,
         });
       updateWallet({ id: user.id });
+      updateTransactions({ id: user.id })
       onClose();
     } else {
       toast.error(resp.message || 'Something went wrong!', {
@@ -91,7 +92,7 @@ function TransactionModal({ open, onClose, onOpen, user, updateWallet }) {
                 selection
                 multiple={state.multiple}
                 search={state.search}
-                options={users}
+                options={users.filter(u => u.key !== user.id)}
                 value={value}
                 placeholder='username'
                 onChange={handleChange}
