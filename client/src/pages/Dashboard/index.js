@@ -95,7 +95,7 @@ function Dashboard({ history }) {
             <span className='date'>{user?.bvn}</span>
           </Card.Meta>
           <Card.Description>
-            <span>{user?.state} <Icon name='check'/></span>
+            <span>{user?.state} {user?.state === 'VERIFIED' ? <Icon name='check'/> : <Icon name='user cancel'/>}</span>
           </Card.Description>
          
         </Card.Content>
