@@ -39,6 +39,14 @@ function Dashboard({ history }) {
     }
   }
 
+  const downloadPdf = async ({ id }) => {
+    await fetch(`/statements/${id}/generate`).then(res => res.blob())
+    .then( blob => {
+      var file = window.URL.createObjectURL(blob);
+      window.open(file, '_blank');
+    });;
+  }
+
 
   React.useEffect(async () => {
     let _user = localStorage.getItem('user');
@@ -149,7 +157,7 @@ function Dashboard({ history }) {
         <Table.Footer>
           <Table.Row>
             <Table.HeaderCell colSpan='4'>
-              <Button>Generate Account Statement</Button>
+              <Button onClick={() => downloadPdf({ id: user.id })}>Generate Account Statement</Button>
             </Table.HeaderCell>
           </Table.Row>
         </Table.Footer>

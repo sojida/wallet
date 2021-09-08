@@ -7,7 +7,7 @@ class Transaction {
     this.amount = amount;
     this.description = description;
     this.walletId = walletId;
-    this.timestamp = moment();
+    this.timestamp = moment().format('YYYY MM DD, h:mm:ss a');
   }
 }
 
