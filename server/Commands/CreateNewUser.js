@@ -35,7 +35,7 @@ class CreateNewUser extends CommandHandler {
     return {
       status: true,
       statusCode: 200,
-      message: 'user created successfully',
+      message: 'User created successfully',
       user,
     };
   }

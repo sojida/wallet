@@ -2,6 +2,8 @@ import React from "react";
 import { withRouter, Link } from "react-router-dom" 
 import { toast } from 'react-toastify';
 import { Button, Form } from 'semantic-ui-react'
+import { TopNav } from '../../components/Layouts/Applayout'
+
 
 const initialState = {
 	username: '',
@@ -59,6 +61,8 @@ function Signin({ history }) {
 	};
 
   return (
+    <>
+    <TopNav auth />
     <div className="signin">
        <Form className="form-container" onSubmit={submit} >
          <h3>Login</h3>
@@ -75,19 +79,20 @@ function Signin({ history }) {
             {`
               .signin {
                 display: grid;
-                height: 100vh;
+                height: 88vh;
                 place-items: center;
               }
 
               .input {
                 margin: 10px 0;
+                width: 100%;
               }
 
               .form-container {
                 display: grid;
                 place-items: center;
                 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-                width: 400px;
+                width: 500px;
                 padding: 50px;
                 border: 1px solid lightgreen;
               }
@@ -95,6 +100,7 @@ function Signin({ history }) {
             `}
           </style>
     </div>
+    </>
   );
 }
 

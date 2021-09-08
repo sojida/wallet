@@ -4,6 +4,7 @@ import { withRouter, Link } from "react-router-dom"
 
 // components
 import MultistepForm from "../../components/Multistepper";
+import { TopNav } from '../../components/Layouts/Applayout'
 
 // Steps
 import StepOne from "./StepOne";
@@ -37,9 +38,11 @@ function Signup({ history }) {
   }
 
   return (
+    <>
+    <TopNav auth />
     <div className="signup">
       <div className="signup-container">
-        <h1>Sign up</h1>
+        <h3>Sign up</h3>
         <MultistepForm
           steps={[StepOne, StepTwo, StepThree]}
           formValues={formValues}
@@ -52,16 +55,17 @@ function Signup({ history }) {
             {`
               .signup {
                 display: grid;
-                height: 100vh;
                 place-items: center;
+                height: 88vh;
               }
-
 
               .signup-container {
                 display: grid;
                 place-items: center;
+                grid-template-rows: 1fr 3fr 1fr;
                 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-                width: 400px;
+                width: 500px;
+                height: 600px;
                 padding: 50px;
                 border: 1px solid lightgreen;
               }
@@ -69,6 +73,7 @@ function Signup({ history }) {
             `}
           </style>
     </div>
+    </>
   );
 }
 
