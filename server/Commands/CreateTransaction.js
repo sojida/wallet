@@ -77,8 +77,11 @@ class CreateTransaction extends CommandHandler {
       };
     }
 
-    const transaction = new Models.Transaction(amount, description);
-    Db.transactions.push(transaction);
+    const senderTrx = new Models.Transaction(amount, description, wallet.id);
+    const receiverTrx = new Models.Transaction(Math.abs(amount), description, receiverWallet.id);
+
+    Db.transactions.push(senderTrx);
+    Db.transactions.push(receiverTrx);
 
     receiverWallet.balance = Number(receiverWallet.balance) - Number(amount);
     wallet.balance = newWalletBalance;
@@ -87,7 +90,7 @@ class CreateTransaction extends CommandHandler {
       status: true,
       statusCode: 200,
       message: 'transaction created successfully',
-      transaction,
+      transaction: senderTrx,
     };
   }
 }
