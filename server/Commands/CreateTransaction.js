@@ -89,7 +89,7 @@ class CreateTransaction extends CommandHandler {
     return {
       status: true,
       statusCode: 200,
-      message: 'transaction created successfully',
+      message: 'Transaction successful',
       transaction: senderTrx,
     };
   }

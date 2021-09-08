@@ -86,6 +86,9 @@ export default function MultistepForm(props) {
         {`
           .multi-step-form {
             width: 100%;
+            display: grid;
+            grid-template-rows: 50px 3fr;
+            align-self: start;
           }
           .slide-container {
             display: flex;

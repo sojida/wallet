@@ -49,7 +49,7 @@ class UpdateUser extends CommandHandler {
     return {
       status: true,
       statusCode: 200,
-      message: 'user updated successfully',
+      message: 'Profile update successful',
       user,
     };
   }

@@ -2,6 +2,34 @@ import React from 'react';
 import { withRouter } from 'react-router-dom'
 import { Button } from 'semantic-ui-react'
 
+export const TopNav = ({ logout, auth }) => {
+	return (
+		<div className="topnav-container">
+		 <div className="topnav">
+			<h1>Walletly</h1>
+			{auth ? null :  <Button onClick={logout}>Logout</Button>}
+		 </div>
+		 <style jsx="true">
+				{`
+					.topnav {
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						margin: 0 50px;
+					}
+
+					.topnav-container {
+						background: lightgreen;
+						align-content: center;
+						height: 100px;
+						padding-top: 25px;
+					}
+				`}
+			</style>
+		</div>
+	)
+}
+
 
 const AppLayout = ({ children, history }) => {
 	const logout = () => {
@@ -11,15 +39,7 @@ const AppLayout = ({ children, history }) => {
 	return (
 		<div className="app-layout">
 			<div className="app-layout-topnav">
-				{/* <TopNav /> */}
-				<div className="topnav">
-                <h1>
-					Walletly
-				</h1>
-				<Button onClick={logout}>
-					Logout
-				</Button>
-				</div>
+				<TopNav logout={logout} />
 			</div>
 			<div className="app-layout-body">{children}</div>
 			<style jsx="true">
@@ -33,9 +53,6 @@ const AppLayout = ({ children, history }) => {
 						grid-column: 2/-1;
 						height: 100px;
 						border-bottom: 2px solid #fafafc;
-						background: lightgreen;
-						align-content: center;
-						padding-top: 25px;
 					}
 
 					.topnav {

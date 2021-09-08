@@ -1,5 +1,6 @@
 import React from 'react';
-import { Input, Button } from 'semantic-ui-react'
+import { toast } from 'react-toastify';
+import { Input, Button, Form } from 'semantic-ui-react'
 
 const StepTwo = ({ next, previous, formValues, updateFormValues, skip }) => {
     const submit = async (e) => {
@@ -16,6 +17,25 @@ const StepTwo = ({ next, previous, formValues, updateFormValues, skip }) => {
         if (resp.status) {
             localStorage.setItem('user', JSON.stringify(resp.user));
             next()
+            toast.success(resp.message, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+        } else {
+          toast.error(resp.message, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         }
     }
 
@@ -29,23 +49,37 @@ const StepTwo = ({ next, previous, formValues, updateFormValues, skip }) => {
 
     return (
       <div className="step-two">
-          <form onSubmit={submit}>
+          <h4>Bvn Details</h4>
+          <Form onSubmit={submit}>
             <div className="input">
               <Input onChange={handleChange} value={formValues.bvn} placeholder="bvn" name="bvn" />
             </div>
-          <Button color="green" type="submit">Next</Button>
-          <Button color="blue" onClick={skip} type="button">Skip</Button>
-          <Button color="" onClick={previous} type="button">Previous</Button>
-          </form>
+          <div className="btn-grp">
+            <Button color="" onClick={previous} type="button">Go Back</Button>
+            <Button color="green" type="submit">Next</Button>
+            <Button color="blue" onClick={skip} type="button">Dashboard</Button>
+          </div>
+          </Form>
           <style jsx="true">
         {`
           .step-two {
             display: grid;
-            place-items: center;
+            width: 100%;
+          }
+
+          h4{
+            text-align: center;
           }
 
           .input {
             margin: 10px 0;
+            width: 100%;
+          }
+
+          .btn-grp{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
           }
         `}
       </style>

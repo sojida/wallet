@@ -18,6 +18,16 @@ const StepThree = ({ previous, formValues, updateFormValues, history, skip }) =>
     if (resp.status) {
         localStorage.setItem('user', JSON.stringify(resp.user));
         history.push('/dashboard');
+    } else {
+      toast.error(resp.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
 }
 
@@ -31,6 +41,7 @@ updateFormValues((formValues) => ({
 
 return (
   <div className="step-three">
+      <h4>Contact Details</h4>
       <form onSubmit={submit}>
         <div className="input">
           <Input onChange={handleChange} value={formValues.address} placeholder="address" name="address" />
@@ -39,19 +50,32 @@ return (
           <Input onChange={handleChange} value={formValues.city} placeholder="city" name="city" />
         </div>
 
-        <Button color="green" type="submit">Next</Button>
-        <Button color="blue" onClick={skip} type="button">Skip</Button>
-        <Button color="" onClick={previous} type="button">Previous</Button>
+        <div className="btn-grp">
+          <Button color="" onClick={previous} type="button">Previous</Button>
+          <Button color="green" type="submit">Next</Button>
+          <Button color="blue" onClick={skip} type="button">Dashboard</Button>
+        </div>
       </form>
       <style jsx="true">
     {`
       .step-three {
         display: grid;
-        place-items: center;
+        width: 100%;
+      }
+
+      h4{
+        text-align: center;
       }
 
       .input {
         margin: 10px 0;
+        width: 100%;
+      }
+
+      .btn-grp{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
       }
     `}
   </style>
