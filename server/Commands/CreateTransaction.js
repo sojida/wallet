@@ -3,17 +3,18 @@ const Yup = require('yup');
 const Db = require('../Dummy_Database');
 const Models = require('../Models');
 const { CommandHandler } = require('../CQ');
+const WalletProjection = require('../Projections/Wallet');
+const EventStore = require('../EventStore');
 
 class CreateTransaction extends CommandHandler {
   async handle(command) {
     const {
-      amount, description, userId, receiverId,
+      amount, description, userId,
     } = command.params;
 
     const schema = Yup.object().shape({
       amount: Yup.number().required(),
       description: Yup.string().required(),
-      receiverId: Yup.string().required(),
     });
 
     const validationErr = await schema.validate(command.params).catch((err) => err);
@@ -47,9 +48,9 @@ class CreateTransaction extends CommandHandler {
       };
     }
 
-    const wallet = Db.wallets.find(((walletItem) => walletItem.userId === userId));
+    const walletInStore = Db.wallets.find(((walletItem) => walletItem.userId === userId));
 
-    if (!wallet) {
+    if (!walletInStore) {
       return {
         status: false,
         statusCode: 404,
@@ -57,9 +58,11 @@ class CreateTransaction extends CommandHandler {
       };
     }
 
-    const newWalletBalance = Number(wallet.balance) + Number(amount);
+    const walletStream = EventStore.findEvent({ aggregateId: walletInStore.id });
 
-    if (newWalletBalance < 0) {
+    const wallet = new WalletProjection().build(walletStream);
+
+    if (Number(wallet.balance) + Number(amount) < 0) {
       return {
         status: false,
         statusCode: 422,
@@ -67,24 +70,12 @@ class CreateTransaction extends CommandHandler {
       };
     }
 
-    const receiverWallet = Db.wallets.find((recWallet) => recWallet.userId === receiverId);
+    EventStore.appendEvent({ aggregateId: wallet.id, state: { amount: Number(amount) }, type: 'WALLET_BALANCE_UPDATED' })
+      .publishTo('wallet');
 
-    if (!receiverWallet) {
-      return {
-        status: false,
-        statusCode: 404,
-        message: 'receiver does not exist',
-      };
-    }
-
+    // create transaction
     const senderTrx = new Models.Transaction(amount, description, wallet.id);
-    const receiverTrx = new Models.Transaction(Math.abs(amount), description, receiverWallet.id);
-
     Db.transactions.push(senderTrx);
-    Db.transactions.push(receiverTrx);
-
-    receiverWallet.balance = Number(receiverWallet.balance) - Number(amount);
-    wallet.balance = newWalletBalance;
 
     return {
       status: true,

@@ -2,10 +2,17 @@ const express = require('express');
 const RateLimiting = require('express-rate-limit');
 const path = require('path');
 const Controllers = require('./Controllers');
+const EventStore = require('./EventStore');
+const WalletConsumer = require('./Consumers/Wallet');
 
 require('dotenv').config();
 
 const PORT = process.env.PORT || 4000;
+
+// create Eventstore
+const walletChannel = EventStore.subscribe('wallet');
+
+walletChannel.onEvent(WalletConsumer);
 
 const app = express();
 

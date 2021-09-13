@@ -30,6 +30,10 @@ class Store {
     this.channels[channel] = newChannel;
     return newChannel;
   }
+
+  getSubscription(channel) {
+    return this.channels[channel];
+  }
 }
 
 module.exports = Store;
