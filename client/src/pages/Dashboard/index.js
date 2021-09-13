@@ -22,6 +22,7 @@ function Dashboard({ history }) {
   const [wallet, setWallet] = React.useState(null);
   const [transactions, setTransactions] = React.useState([])
   const [user, setUser] = React.useState(null);
+  const [transactionAction, setTransactionAction] = React.useState('credit');
 
   const updateWallet = async ({ id }) => {
     const resp = await fetch(`/users/${id}/wallet`).then(res => res.json())
@@ -61,6 +62,11 @@ function Dashboard({ history }) {
     }
   }, [])
 
+  const transactionModal = (action) => {
+    setOpenTransactionModal(true)
+    setTransactionAction(action);
+  }
+
   const headers = ['id', 'amount', 'description', 'timestamp']
 
   return (
@@ -82,6 +88,7 @@ function Dashboard({ history }) {
         user={user}
         updateWallet={updateWallet}
         updateTransactions={updateTransactions}
+        transactionAction={transactionAction}
       />
 
       <Card.Group itemsPerRow={2}>
@@ -115,9 +122,12 @@ function Dashboard({ history }) {
           </h2>
         </Card.Content>
         <Card.Content extra>
-          <div className='ui two buttons'>
-            <Button onClick={() => setOpenTransactionModal(true)} basic color='green'>
-              Send Money
+          <div className='ui buttons'>
+            <Button onClick={() => transactionModal('credit')} basic color='green'>
+              Deposit
+            </Button>
+            <Button onClick={() => transactionModal('debit')} basic color='red'>
+              Withdraw
             </Button>
           </div>
         </Card.Content>

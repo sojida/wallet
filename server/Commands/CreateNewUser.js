@@ -3,6 +3,8 @@ const Yup = require('yup');
 const Models = require('../Models');
 const Db = require('../Dummy_Database');
 const { CommandHandler } = require('../CQ');
+const EventStore = require('../EventStore');
+const Constants = require('../Constants');
 
 class CreateNewUser extends CommandHandler {
   async handle(command) {
@@ -28,10 +30,18 @@ class CreateNewUser extends CommandHandler {
     }
 
     const user = new Models.User(username, password, email);
+
+    // write operation
+    Db.users.push(user);
+
     const wallet = new Models.Wallet(user.id);
 
-    Db.users.push(user);
-    Db.wallets.push(wallet);
+    EventStore.appendEvent({
+      aggregateId: wallet.id,
+      state: wallet,
+      type: Constants.WalletEvents.WALLET_CREATED,
+    }).publishTo('wallet');
+
     return {
       status: true,
       statusCode: 200,

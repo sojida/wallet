@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { Button, Modal, Header, Form, Dropdown } from 'semantic-ui-react';
 
 
-function TransactionModal({ open, onClose, onOpen, user, updateWallet, updateTransactions }) {
+function TransactionModal({ open, onClose, onOpen, user, updateWallet, updateTransactions, transactionAction }) {
   const [value, setValue] = React.useState('');
   const [searchQuery, setSearchQuery] = React.useState(null);
   const [users, setUsers] = React.useState([]);
@@ -43,7 +43,7 @@ function TransactionModal({ open, onClose, onOpen, user, updateWallet, updateTra
       headers: {
           'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ amount: -Number(amount) * 100, description, receiverId: value }) 
+      body: JSON.stringify({ amount: transactionAction === 'debit' ? -Number(amount) * 100 : Number(amount) * 100, description, receiverId: value }) 
     }).then(res => res.json())
 
     if (resp.status) {
@@ -82,12 +82,12 @@ function TransactionModal({ open, onClose, onOpen, user, updateWallet, updateTra
       onOpen={onOpen}
       open={open}
     >
-      <Modal.Header>Send Money</Modal.Header>
+      <Modal.Header>{transactionAction === 'debit' ? 'Debit wallet' :'Credit Wallet'}</Modal.Header>
       <Modal.Content >
         <Modal.Description>
-          <Header>Create Transaction</Header>
+          <Header>Wallet Transaction</Header>
           <Form>
-          <Dropdown
+          {/* <Dropdown
                 fluid
                 selection
                 multiple={state.multiple}
@@ -99,9 +99,9 @@ function TransactionModal({ open, onClose, onOpen, user, updateWallet, updateTra
                 onSearchChange={handleSearchChange}
                 disabled={isFetching}
                 loading={isFetching}
-            />
+            /> */}
             <div> &nbsp; </div>
-            <Form.Input onChange={({ target }) => setAmount(target.value)}  placeholder="amount" name="amount" />
+            <Form.Input onChange={({ target }) => setAmount(target.value)} type="number"  placeholder="amount" name="amount" />
             <Form.Input onChange={({ target }) => setDescription(target.value)} placeholder="description" name="description" />
           </Form>
 
@@ -112,7 +112,7 @@ function TransactionModal({ open, onClose, onOpen, user, updateWallet, updateTra
           Cancel
         </Button>
         <Button
-          content="Transfer"
+          content={transactionAction === 'debit' ? 'Debit' : 'Credit'}
           labelPosition='right'
           icon='checkmark'
           onClick={createTransaction}
