@@ -1,3 +1,19 @@
 language: node_js
 node_js:
   - 14
+
+
+jobs:
+  include:
+    - stage: test
+      name: 'Unit Tests'
+      script: 'npm run test'
+    - stage: deploy
+      script: 'npm run build'
+      name: 'Deploy to Heroky'
+      deploy:
+        provider: heroku
+        api_key:
+          secure: $HEROKU_API_KEY
+        on:
+          branch: master
