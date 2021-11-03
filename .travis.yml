@@ -8,6 +8,12 @@ jobs:
     - stage: test
       name: 'Unit Tests'
       script: 'npm run test'
+    - stage: build
+      name: 'Build'
+      script: 'npm run build'
+    - stage: lint
+      name: 'Lint'
+      script: 'npm run lint:client && npm run lint:server'
     - stage: deploy
       script: 'npm run build'
       name: 'Deploy to Heroku'

@@ -8,7 +8,9 @@
     "start": "node server/app.js",
     "start:dev:server": "nodemon server/app.js",
     "start:dev:client": "cd client && yarn start",
-    "build": "cd client && npm install && npm run build && cd .."
+    "build": "cd client && npm install && npm run build && cd ..",
+    "lint:client": "./node_modules/.bin/eslint client",
+    "lint:server": "./node_modules/.bin/eslint server"
   },
   "repository": {
     "type": "git",
