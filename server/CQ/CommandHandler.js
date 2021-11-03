@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 
 class CommandHandler {
-  handle(command) {
+  handle() {
     return null;
   }
 }

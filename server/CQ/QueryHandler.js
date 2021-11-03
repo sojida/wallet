@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 class QueryHandler {
-  query(query) {
+  query() {
     return null;
   }
 }

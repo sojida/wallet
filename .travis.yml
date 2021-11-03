@@ -5,14 +5,20 @@ node_js:
 
 jobs:
   include:
+    - stage: lint
+      name: 'Lint'
+      script: 'npm run lint:client && npm run lint:server'
     - stage: test
       name: 'Unit Tests'
       script: 'npm run test'
-    - stage: deploy
+    - stage: build
+      name: 'Build'
       script: 'npm run build'
+    - stage: deploy
       name: 'Deploy to Heroku'
       deploy:
         provider: heroku
+        script: skip
         api_key: $HEROKU_API_KEY
         app: ancient-reef-96943
         skip_cleanup: true
